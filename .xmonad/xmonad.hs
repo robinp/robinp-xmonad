@@ -5,6 +5,8 @@
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.SetWMName
+import XMonad.Hooks.ICCCMFocus
 import XMonad.Util.Run(spawnPipe)
 import XMonad.Util.EZConfig(additionalKeys)
 import System.IO
@@ -24,7 +26,8 @@ main = do
     , logHook = dynamicLogWithPP xmobarPP
                   { ppOutput  = hPutStrLn xmproc
                   , ppTitle   = xmobarColor "green" "" . shorten 50
-                  }
+                  } <+> takeTopFocus
+    ,  startupHook = setWMName "LG3D" -- for IDEA & other Swing apps
     } `additionalKeys`
     [ (winKey xK_l, spawn "xscreensaver-command -lock") ]
     where dc = defaultConfig
